@@ -1,0 +1,97 @@
+.main {
+    width: 200px;
+    .submain1{
+        .userIcon{
+            display: none;
+        }
+    }
+    .toggleuser{
+        background-color: green;
+        z-index: 3;
+        .searchbar{
+                background-color: rgb(115, 200, 172);
+                display: flex;
+                flex-flow: row nowrap;
+                align-items: center;
+                height: 50px;
+                .inputSearch{
+                    input{
+                        outline: none;
+                        border: none;
+                        height: 30px;
+                    }
+                }
+                .inputSearchIcon{
+                    display: flex;
+                    flex-flow: row nowrap;
+                    align-items: center;
+                }
+            }
+            .userlist{
+                list-style: none;
+                li{
+                    background-color: rgb(248, 245, 248);
+                    height: 30px;
+                    margin-bottom: 10px;
+                    border-radius: 15px;
+                    text-align: center;
+                }
+                &:hover{
+                    opacity: 0.6;
+                }
+            }
+        }
+    .submain2{
+        .searchbar{
+            background-color: rgb(115, 200, 172);
+            display: flex;
+            flex-flow: row nowrap;
+            align-items: center;
+            height: 50px;
+            .inputSearch{
+                input{
+                    outline: none;
+                    border: none;
+                    height: 30px;
+                }
+            }
+            .inputSearchIcon{
+                display: flex;
+                flex-flow: row nowrap;
+                align-items: center;
+            }
+        }
+        .userlist{
+            list-style: none;
+            li{
+                background-color: rgb(248, 245, 248);
+                height: 30px;
+                margin-bottom: 10px;
+                border-radius: 15px;
+                text-align: center;
+            }
+            &:hover{
+                opacity: 0.6;
+            }
+        }
+    }
+    
+}
+
+
+@media only screen and (max-width: 600px) {
+    .main{
+        width: 100%;
+        .submain1{
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: space-between;
+            .userIcon{
+                display: flex !important;
+            }
+        }
+        .submain2{
+            display: none;
+        }
+    }
+  }

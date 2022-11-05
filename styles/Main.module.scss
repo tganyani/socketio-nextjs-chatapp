@@ -1,0 +1,10 @@
+.app{
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+@media only screen and (max-width: 600px) {
+    .app{
+        flex-flow: column nowrap;
+    }
+  }
