@@ -12,7 +12,7 @@ const httpServer = createServer(app)
 
 const io = new Server(httpServer, {
     cors: {
-        origin: "https://chat-frontf.herokuapp.com",
+        origin: "*",
         methods:['GET','POST']
     }
 })
@@ -27,4 +27,6 @@ io.on("connection", (socket)=>{
     })
 })
 
-httpServer.listen(5000,()=>console.log('The server is app and running on port 5000'))
+const port = process.env.PORT || 5000
+
+httpServer.listen(port,()=>console.log('The server is app and running on port 5000'))
