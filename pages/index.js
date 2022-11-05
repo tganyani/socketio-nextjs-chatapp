@@ -4,29 +4,29 @@ import Image from 'next/image'
 import {io} from 'socket.io-client'
 import styles from '../styles/Home.module.css'
 
-const socket = io("http://localhost:5000")
+// const socket = io("https://mychat-a.herokuapp.com/")
 
 
 export default function Home() {
   const [messages, setMessages] = useState([])
   const [message, setMessage] = useState('')
-  useEffect(()=>{
+  // useEffect(()=>{
     // socket.on('greet',(data)=>{
     //   setMessages(data)
     //   console.log(data)
     // })
-    socket.on('newmsg',(data)=>{
-      console.log(data)
-      setMessages(data)
-    })
-  },[])
-  const handleSubmit = async (e)=>{
-    e.preventDefault()
-    await socket.emit('newmessage',message)
-  }
+  //   socket.on('newmsg',(data)=>{
+  //     console.log(data)
+  //     setMessages(data)
+  //   })
+  // },[])
+  // const handleSubmit = async (e)=>{
+  //   e.preventDefault()
+  //   await socket.emit('newmessage',message)
+  // }
   return (
     <div className={styles.container}>
-      <input
+      {/* <input
         type="text"
         onChange={e => setMessage(e.target.value)}
       />
@@ -42,7 +42,8 @@ export default function Home() {
             <p key={i}>{msg}</p>
           ))
         }
-      </div>
+      </div> */}
+      Hello TGB
     </div>
   )
 }
