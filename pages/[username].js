@@ -5,8 +5,9 @@ import axios from 'axios'
 import {io} from 'socket.io-client'
 
 import styles from '../styles/ChatFrame.module.scss'
+import baseUrl from '../helpers/baseurl'
 
-const socket = io("https://backend-chat-app-l03g.onrender.com")
+const socket = io(`${baseUrl}`)
 
 
 const Room = () => {
@@ -26,22 +27,23 @@ const Room = () => {
   },[message,socket])
   useEffect(() =>{
     const fetchRoom = async ()=>{
-      await axios.get(`https://backend-chat-app-l03g.onrender.com/room?name=${roomName}`)
+      await axios.get(`${baseUrl}/room?name=${roomName}`)
       .then(res=>{
         setRoom(res.data[0])
         setMessages(res.data[0]?.chats)
       })
       if(!room){
-        await axios.post('https://backend-chat-app-l03g.onrender.com/newroom',{name:roomName})
-        await axios.get(`https://backend-chat-app-l03g.onrender.com/room?name=${roomName}`).then(res=>setRoom(res.data[0]))
+        await axios.post(`${baseUrl}/newroom`,{name:roomName})
+        await axios.get(`${baseUrl}/room?name=${roomName}`).then(res=>setRoom(res.data[0]))
       }
       
     }
     fetchRoom()
-  },[roomName,message])
+  },[roomName])
   const handleSubmit = async (e)=>{
     e.preventDefault()
     await socket.emit('sendroomMsg',{roomName:roomName,roomId:room.id,userId:session?.name.userId,message})
+    setMessage("")
   }
   if(!messages) return <p>Loading......!</p>
 
@@ -63,6 +65,7 @@ const Room = () => {
         <div className={styles.chatInput}>
           <input
             type="text"
+            value={message}
             onChange={e => setMessage(e.target.value)}
           />
           <button
