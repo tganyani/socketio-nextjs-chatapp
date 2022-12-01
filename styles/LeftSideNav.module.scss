@@ -1,40 +1,49 @@
 .main {
-    width: 200px;
+    min-width: 300px;
     .submain1{
         .userIcon{
             display: none;
         }
     }
     .toggleuser{
-        background-color: green;
         z-index: 3;
+        background-color: rgb(248, 245, 248);
         .searchbar{
-                background-color: rgb(115, 200, 172);
-                display: flex;
-                flex-flow: row nowrap;
-                align-items: center;
                 height: 50px;
                 .inputSearch{
-                    input{
-                        outline: none;
-                        border: none;
-                        height: 30px;
-                    }
-                }
-                .inputSearchIcon{
                     display: flex;
                     flex-flow: row nowrap;
-                    align-items: center;
+                    justify-content: center;
+                    width: 100%;
+                    input{
+                        margin-top: 10px;
+                        width: 100%;
+                        outline: none;
+                        border: none;
+                        height: 40px;
+                        text-align: center;
+                    }
                 }
+               
             }
             .userlist{
                 list-style: none;
                 li{
-                    background-color: rgb(248, 245, 248);
-                    height: 30px;
-                    margin-bottom: 10px;
-                    border-radius: 15px;
-                    text-align: center;
+                    height: 50px;
+                    display: flex;
+                    flex-flow: row nowrap;
+                    justify-content: space-around;
+                    align-items: center;
+                    box-shadow: 0 0 1px;
+                    div{
+                        width: 60%;
+                        display: flex;
+                        flex-flow: row nowrap;
+                        justify-content: space-between;
+                        align-items: center;
+                        text-align: center;
+
+                    }
                 }
                 &:hover{
                     opacity: 0.6;
@@ -43,32 +52,37 @@
         }
     .submain2{
         .searchbar{
-            background-color: rgb(115, 200, 172);
-            display: flex;
-            flex-flow: row nowrap;
-            align-items: center;
             height: 50px;
             .inputSearch{
+                display: flex;
+                    flex-flow: row nowrap;
+                    justify-content: center;
+                    width: 100%;
                 input{
                     outline: none;
                     border: none;
                     height: 30px;
                 }
             }
-            .inputSearchIcon{
-                display: flex;
-                flex-flow: row nowrap;
-                align-items: center;
-            }
         }
         .userlist{
             list-style: none;
             li{
-                background-color: rgb(248, 245, 248);
-                height: 30px;
-                margin-bottom: 10px;
-                border-radius: 15px;
-                text-align: center;
+                height: 50px;
+                display: flex;
+                flex-flow: row nowrap;
+                justify-content: space-around;
+                align-items: center;
+                box-shadow: 0 0 1px;
+                div{
+                    width: 60%;
+                    display: flex;
+                    flex-flow: row nowrap;
+                    justify-content: space-between;
+                    align-items: center;
+                    text-align: center;
+
+                }
             }
             &:hover{
                 opacity: 0.6;

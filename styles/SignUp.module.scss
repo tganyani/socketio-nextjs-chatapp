@@ -11,9 +11,17 @@
         flex-flow: column nowrap;
         box-shadow: 0 0 2px grey;
         padding-bottom: 20px;
-        width: 230px;
+        width: 330px;
+        height: 430px;
+        padding: 15px;
         label,button{
-            margin-top: 15px;
+            margin-top: 10px;
+        }
+        input,button{
+            height: 40px !important;
+        }
+        p{
+            color: lawngreen;
         }
     }
 }

@@ -1,37 +1,44 @@
 .main{
+    display: flex;
+    flex-flow: column nowrap;
     .topBar{
-        background-color: rgb(115, 200, 172);
+        background-color: gainsboro;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
-    width: calc(100vw - 200px);
+    width: calc(100vw - 300px);
     .submain{
         background-color: aqua;
-        border-radius: 0 13px;
         .chatframe{
             width: 100%;
             height: 85vh;
             overflow-y: scroll;
             .friend{
-                background-color: rgb(240, 246, 246);
+                background-color: rgb(207, 241, 240);
                 border-radius: 0 12px 12px 12px;
                 max-width: 50%;
                 width: fit-content;
                 height: fit-content;
                 margin-top: 15px;
-                margin-left: 15px;
+                margin-left: 5%;
                 padding-left: 12px;
                 padding-right: 12px;
+                min-height: 25px;
+
             }
             .you{
                 background-color: aliceblue;
-                background-color: white;
                 border-radius: 12px 0 12px 12px;
-                margin-left: 45%;
+                min-height: 25px;
                 height: fit-content;
                 width: fit-content;
                 max-width: 50%;
                 padding-left: 12px;
                 padding-right: 12px;
                 margin-top: 15px;
+               margin-left: 45%;
             }
         }
         .chatInput{
@@ -54,7 +61,12 @@
     .main{
         width: 100%;
         position: absolute;
-        top: 50px;
+        top: 30px;
         z-index: -1;
+        .submain{
+            .chatframe{
+                height: calc(100vh - 112px);
+            }
+        }
     }
   }
