@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import { useSession} from "next-auth/react"
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 import {io} from 'socket.io-client'
 
@@ -16,6 +16,7 @@ const Room = () => {
   const [room, setRoom] = useState({})
   const [messages, setMessages] = useState([])
   const [message, setMessage] = useState('')
+  const chatbottom = useRef()
   const { username } = router.query
   const roomName =  session?.name.username < username ?"".concat(session?.name.username,username): "".concat(username,session?.name.username)
   
@@ -40,6 +41,10 @@ const Room = () => {
     }
     fetchRoom()
   },[roomName])
+  useEffect(()=>{
+    chatbottom.current.scrollIntoView({ block: 'end', behavior: 'smooth' })
+  },[messages])
+
   const handleSubmit = async (e)=>{
     e.preventDefault()
     await socket.emit('sendroomMsg',{roomName:roomName,roomId:room.id,userId:session?.name.userId,message})
@@ -61,6 +66,9 @@ const Room = () => {
               </div>
             ))
           }
+          <div ref={chatbottom}>
+
+          </div>
         </div>
         <div className={styles.chatInput}>
           <input
