@@ -1,6 +1,7 @@
 import NextAuth from "next-auth/next";
 import CredentialsProvider  from "next-auth/providers/credentials";
 import axios from 'axios'
+import baseUrl from "../../../helpers/baseurl";
 
 export default NextAuth({
     providers:[
@@ -17,7 +18,7 @@ export default NextAuth({
                 }
             },
             authorize: async({username, password})=>{
-                const user =  await axios.get(`https://backend-chat-app-l03g.onrender.com/user?username=${username}`)
+                const user =  await axios.get(`${baseUrl}/user?username=${username}`)
                         .then(res => res.data)
                 if (user && user.password === password){
                     return {

@@ -10,12 +10,13 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
+import baseUrl from "../helpers/baseurl";
 
 const fetcher = (...args) => fetch(...args).then((res) => res.json())
 
 export default function LeftSideNav(){
     const { data: session } = useSession()
-    const { data, error } = useSWR('https://backend-chat-app-l03g.onrender.com/users', fetcher)
+    const { data, error } = useSWR(`${baseUrl}/users`, fetcher)
     const [anchorEl, setAnchorEl] = useState(null);
     const [toggleuser , setToggleuser] = useState(false)
     const open = Boolean(anchorEl);
