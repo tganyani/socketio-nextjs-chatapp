@@ -16,6 +16,7 @@ const Room = () => {
   const [room, setRoom] = useState({})
   const [messages, setMessages] = useState([])
   const [message, setMessage] = useState('')
+  const [typingMsg, setTypingMsg] = useState("")
   const { username } = router.query
   const roomName =  session?.name.username < username ?"".concat(session?.name.username,username): "".concat(username,session?.name.username)
   
