@@ -50,11 +50,46 @@ app.get('/room',async (req, res) =>{
               name: req.query.name,
             },
             include: {
-                users: true,
-                chats: true,
+                users:{
+                    where:{
+                        NOT:{
+                            username:req.query.user
+                        }
+                    }
+                },
+                chats:{
+                    orderBy: {
+                        id: 'asc',
+                      },
+                },
               },
           })
         res.json(room)
+    } catch (err) {
+        console.error(err)
+    }
+})
+app.get('/roomsin',async(req, res)=>{
+    try {
+        const rooms = await prisma.user.findUnique({
+           where:{
+            id: Number(req.query.id)
+           },
+           select:{
+            rooms_in:{
+                include:{
+                    users:{
+                        where:{
+                            NOT:{
+                                username:req.query.name
+                            }
+                        }
+                    },
+                }
+            }
+           }
+        })
+        res.json(rooms. rooms_in)
     } catch (err) {
         console.error(err)
     }
@@ -63,14 +98,17 @@ app.post('/newuser',async(req, res)=>{
     try {
         const user = await prisma.user.create({
             data: {
-              "username": req.body.username,
-              "password": req.body.password
+              username: req.body.username,
+              password: req.body.password
           }})
           res.json({
-            status:true
+            msg:"Account successfully created"
           })
        } catch (err) {
         console.log(err)
+        res.json({
+            msg:"could not successfully create your account"
+        })
        }
 })
 app.post('/newroom', async(req, res)=>{
@@ -80,7 +118,10 @@ app.post('/newroom', async(req, res)=>{
         data: {
           name: req.body.name,
           users: {
-            create: req.body.users,
+            connect: [
+                {id:Number(req.body.users[0])},
+                {username:req.body.users[1]},
+            ],
           },
         },
       })
@@ -101,7 +142,6 @@ const io = new Server(httpServer, {
 
 io.on("connection", (socket)=>{
     console.log(socket.id)
-    // io.emit('greet',messages)
     
     socket.on('sendroomMsg',async(data)=>{
         const createMsg = await prisma.chat.create({
@@ -112,11 +152,46 @@ io.on("connection", (socket)=>{
             }
         })
         console.log(createMsg)
-        socket.join(data.roomName)
         io.to(data.roomName).emit("roomMsg",createMsg)
+    })
+    socket.on('joinroom',(data)=>{
+        socket.join(data)
+    })
+    socket.on('online',(data)=>{
+        io.emit('online_user',data)
+    })
+    socket.on('typing',(data)=>{
+        socket.join(data.roomName)
+        socket.to(data.roomName).emit("user_typing", data.message)
+    })
+    socket.on('deliveredmsg',async(d)=>{
+        console.log(d)
+        await prisma.room.update({
+            where:{
+                id:Number(d.roomId),
+            },
+            data:{
+                chats:{
+                    updateMany:{
+                        where:{
+                            NOT:{
+                                userId:Number(d.userId)
+                            }
+                        },
+                        data:{
+                            delivered:true,
+                        }
+                    }
+                }
+            }
+        })
+        socket.join(d.roomName)
+        socket.to(d.roomName).emit("updatedeliveredmsg")
     })
 })
 
 const port = process.env.PORT || 5000
 
 httpServer.listen(port,()=>console.log('The server is app and running on port 5000'))
+
+
