@@ -1,6 +1,5 @@
 .main{
-    display: flex;
-    flex-flow: column nowrap;
+    width: calc(100vw - 300px);
     .topBar{
         background-color: gainsboro;
         height: 40px;
@@ -8,12 +7,10 @@
         align-items: center;
         justify-content: center;
     }
-    width: calc(100vw - 300px);
     .submain{
-        background-color: aqua;
         .chatframe{
-            width: 100%;
             height: 85vh;
+            background-color: aqua;
             overflow-y: scroll;
             .friend{
                 background-color: rgb(207, 241, 240);
@@ -23,30 +20,28 @@
                 height: fit-content;
                 margin-top: 15px;
                 margin-left: 5%;
-                padding-left: 12px;
-                padding-right: 12px;
-                min-height: 25px;
-
+                padding:8px;
+                min-height: 30px;
+                overflow-wrap: break-word;
             }
             .you{
                 background-color: aliceblue;
                 border-radius: 12px 0 12px 12px;
-                min-height: 25px;
-                height: fit-content;
-                width: fit-content;
-                max-width: 50%;
-                padding-left: 12px;
-                padding-right: 12px;
                 margin-top: 15px;
-               margin-left: 45%;
+                max-width: 50%;
+                margin-left: 45%;
+                overflow-wrap: break-word;
+                width: fit-content;
+                height: fit-content;
+                min-height: 30px;
+                padding: 8px;
             }
         }
         .chatInput{
             display: flex;
             flex-flow: row nowrap;
-            border: 2px solid grey;
-            border-radius: 13px;
             overflow: hidden;
+            box-shadow: 0 0 1px;
             input{
                 width: 100%;
                 height: 35px;

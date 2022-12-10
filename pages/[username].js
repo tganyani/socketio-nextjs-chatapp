@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import { useSession} from "next-auth/react"
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 import {io} from 'socket.io-client'
 
@@ -9,7 +9,6 @@ import baseUrl from '../helpers/baseurl'
 
 const socket = io(`${baseUrl}`)
 
-
 const Room = () => {
   const router = useRouter()
   const { data: session } = useSession()
@@ -17,7 +16,9 @@ const Room = () => {
   const [messages, setMessages] = useState([])
   const [message, setMessage] = useState('')
   const [typingMsg, setTypingMsg] = useState("")
+  const scrollMessage = useRef()
   const { username } = router.query
+
   const roomName =  session?.name.username < username ?"".concat(session?.name.username,username): "".concat(username,session?.name.username)
   
   useEffect(()=>{
@@ -25,7 +26,7 @@ const Room = () => {
           console.log(data)
           setMessages([...messages,data])
         })
-  })
+  },[message])
   useEffect(()=>{
     socket.on('user_typing',(data)=>{
       setTypingMsg(data)
@@ -49,6 +50,9 @@ const Room = () => {
     }
     fetchRoom()
   },[roomName])
+  useEffect(() => {
+    scrollMessage.current?.scrollIntoView({ block: 'end', behavior: 'smooth' });
+});
   const handleSubmit = async (e)=>{
     e.preventDefault()
     await socket.emit('sendroomMsg',{roomName:roomName,roomId:room.id,userId:session?.name.userId,message})
@@ -63,12 +67,17 @@ const Room = () => {
      <div className={styles.submain}>
       <div className={styles.chatframe}>
           {
-            messages?.map((msg,i) => (
-              <div key={i} className={msg.userId === session?.name.userId ? styles.you: styles.friend}>
-                <p>{msg.message}</p>
+            messages?.map((msg) => (
+              <div key={msg.id} className={(msg.userId === session?.name.userId)? (styles.you):(styles.friend)}>
+                <div>
+                {msg.message}
+                </div>
               </div>
             ))
           }
+          <div ref={scrollMessage}>
+
+          </div>
         </div>
         <div className={styles.chatInput}>
           <input

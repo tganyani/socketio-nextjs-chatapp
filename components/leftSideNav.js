@@ -15,9 +15,9 @@ import MenuItem from '@mui/material/MenuItem';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 
 const fetcher = (...args) => fetch(...args).then((res) => res.json())
-const socket = io(`${baseUrl}`)
 
 export default function LeftSideNav(){
+    const socket = io(`${baseUrl}`)
     const { data: session } = useSession()
     const { data, error } = useSWR(`${baseUrl}/users`, fetcher)
     const [anchorEl, setAnchorEl] = useState(null);
@@ -29,7 +29,7 @@ export default function LeftSideNav(){
            setOnlineUserId(Number(userId))
         })
         console.log(data)
-    })
+    },[socket])
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
