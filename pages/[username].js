@@ -20,13 +20,16 @@ const Room = () => {
   const { username } = router.query
 
   const roomName =  session?.name.username < username ?"".concat(session?.name.username,username): "".concat(username,session?.name.username)
-  
+  useEffect(()=>{
+    socket.emit('joinroom',roomName)
+  },[])
+
   useEffect(()=>{
       socket.on('roomMsg',(data)=>{
           console.log(data)
           setMessages([...messages,data])
         })
-  },[message])
+  })
   useEffect(()=>{
     socket.on('user_typing',(data)=>{
       setTypingMsg(data)
@@ -49,10 +52,10 @@ const Room = () => {
       
     }
     fetchRoom()
-  },[roomName])
+  },[username,roomName])
   useEffect(() => {
     scrollMessage.current?.scrollIntoView({ block: 'end', behavior: 'smooth' });
-});
+},[messages]);
   const handleSubmit = async (e)=>{
     e.preventDefault()
     await socket.emit('sendroomMsg',{roomName:roomName,roomId:room.id,userId:session?.name.userId,message})

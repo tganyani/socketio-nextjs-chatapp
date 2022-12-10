@@ -1,5 +1,4 @@
-import { use, useEffect, useState } from "react"
-import useSWR from 'swr'
+import { useEffect, useState } from "react"
 import Link from "next/link"
 import { useSession} from "next-auth/react"
 import { signOut } from "next-auth/react"
@@ -13,23 +12,45 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
+import axios from "axios"
 
-const fetcher = (...args) => fetch(...args).then((res) => res.json())
+const socket = io(`${baseUrl}`)
 
 export default function LeftSideNav(){
-    const socket = io(`${baseUrl}`)
     const { data: session } = useSession()
-    const { data, error } = useSWR(`${baseUrl}/users`, fetcher)
     const [anchorEl, setAnchorEl] = useState(null);
     const [toggleuser , setToggleuser] = useState(false)
     const [onlineUserId , setOnlineUserId] = useState()
+    const [users, setUsers] = useState([])
     useEffect(()=>{
         socket.emit('online',{userId:session?.name.userId})
         socket.on('online_user',({userId})=>{
            setOnlineUserId(Number(userId))
         })
-        console.log(data)
-    },[socket])
+    })
+    useEffect(()=>{
+        const fetchData = async ()=>{
+            await axios.get(`${baseUrl}/users`)
+            .then(res=>{
+                setUsers(res.data)
+            })
+        }
+        fetchData()
+    },[])
+    useEffect(()=>{
+        const tempUsers = users.map(user=>{
+            if(user.id === Number(onlineUserId)){
+                return{
+                    ...user,online:true
+                }
+            }
+            else{
+                return user
+            }
+        })
+        setUsers(tempUsers)
+    },[onlineUserId])
+
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -37,13 +58,7 @@ export default function LeftSideNav(){
     const handleClose = () => {
         setAnchorEl(null);
     };
-
-    if(!data){
-        return <p>Loading ...........!</p>
-    }
-    if(error){
-        return <p>Error .......</p>
-    }
+    if(!users[0]) return <p>Loading!!!!!!!!!!!</p>
     return(
         session && (<div className={styles.main}>
             <div className={styles.submain1}>
@@ -90,16 +105,7 @@ export default function LeftSideNav(){
                 </div>
                 <div className={styles.userlist}>
                     {
-                        data.map(user=>{
-                            if(user.id === Number(onlineUserId)){
-                                return{
-                                    ...user,online:true
-                                }
-                            }
-                            else{
-                                return user
-                            }
-                        }).map(user=>(
+                    users.map(user=>(
                         <Link href={`/${user.username}`} key={user.id} onClick={()=>setToggleuser(false)}>
                             <li >
                                 <AccountCircleIcon/>
