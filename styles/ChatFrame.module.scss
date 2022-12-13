@@ -20,21 +20,36 @@
                 height: fit-content;
                 margin-top: 15px;
                 margin-left: 5%;
-                padding:8px;
+                padding:2px 8px 2px 8px;;
                 min-height: 30px;
                 overflow-wrap: break-word;
+                .msg{
+                    font-size: 12px;
+                }
             }
             .you{
                 background-color: aliceblue;
                 border-radius: 12px 0 12px 12px;
                 margin-top: 15px;
                 max-width: 50%;
-                margin-left: 45%;
+                margin-left: auto;
+                margin-right: 5%;
                 overflow-wrap: break-word;
                 width: fit-content;
                 height: fit-content;
                 min-height: 30px;
-                padding: 8px;
+                padding: 1px 8px 1px 8px;
+                .msg{
+                    font-size: 12px;
+                }
+                .ticks{
+                    font-size: 10px;
+                    display: flex;
+                    flex-flow: row nowrap;
+                    justify-content: space-between;
+                    align-items: center;
+                    font-style: italic;
+                }
             }
         }
         .chatInput{
@@ -54,13 +69,21 @@
 
 @media only screen and (max-width: 600px) {
     .main{
+        z-index: -1;
         width: 100%;
         position: absolute;
-        top: 30px;
-        z-index: -1;
+        top: 40px;
         .submain{
             .chatframe{
                 height: calc(100vh - 112px);
+                .you{
+                    margin-right: 2%;
+                    max-width: 78%;
+                }
+                .friend{
+                    margin-left: 2%;
+                    max-width: 78%;
+                }
             }
         }
     }

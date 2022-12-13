@@ -6,5 +6,6 @@
 @media only screen and (max-width: 600px) {
     .app{
         flex-flow: column nowrap;
+        position: relative;
     }
   }
